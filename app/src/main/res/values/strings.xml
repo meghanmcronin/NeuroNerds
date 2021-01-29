@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">NSGapp</string>
+    <string name="brain_part_1">brain part 1</string>
+    <string name="brain_part_2">brain part 2</string>
+    <string name="brain_part_3">brain part 3</string>
+    <string name="brain_part_4">brain part 4</string>
+    <string name="nsg_viewer">NSG Viewer</string>
+    <string name="brain_stem">Brain Stem</string>
+    <string name="cerebellum">Cerebellum</string>
+    <string name="occipital_lobe">Occipital Lobe</string>
+    <string name="parietal_lobe">Parietal Lobe</string>
+    <string name="cerebral_cortex">Cerebral Cortex</string>
+    <string name="temporal_lobe">Temporal Lobe</string>
+    <string name="frontal_lobe">Frontal Lobe</string>
+</resources>

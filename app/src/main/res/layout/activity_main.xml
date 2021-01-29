@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    app:flow_wrapMode="aligned">
+
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/GLsurface"
+        android:layout_width="947dp"
+        android:layout_height="628dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="49dp" />
+
+    <RadioGroup
+        android:id="@+id/toggleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="321dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="53dp"
+        android:orientation="vertical">
+
+        <Switch
+            android:id="@+id/btn_Frontal_lobe_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onToggle"
+            android:text="@string/frontal_lobe"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Switch
+            android:id="@+id/btn_Temporal_Lobe_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onToggle"
+            android:text="@string/temporal_lobe"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Switch
+            android:id="@+id/btn_Cerebral_Cortex_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onToggle"
+            android:text="@string/cerebral_cortex"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Switch
+            android:id="@+id/btn_Parietal_Lobe_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onToggle"
+            android:text="@string/parietal_lobe"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Switch
+            android:id="@+id/btn_Occipital_Lobe_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onToggle"
+            android:text="@string/occipital_lobe"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Switch
+            android:id="@+id/btn_Cerebellum_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onToggle"
+            android:text="@string/cerebellum"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Switch
+            android:id="@+id/btn_Brain_Stem_toggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onToggle"
+            android:text="@string/brain_stem"
+            android:textAlignment="textEnd"
+            android:textSize="14sp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/nsg_viewer"
+        android:textAlignment="center"
+        android:textSize="36sp" />
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="10dp"
+        app:srcCompat="@drawable/abc_vector_test" />
+
+    <ImageButton
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="90dp"
+        app:srcCompat="@android:drawable/ic_popup_sync" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="72dp"
+        app:srcCompat="@android:drawable/ic_menu_share" />
+
+    <TextView
+        android:id="@+id/scanInfo"
+        android:layout_width="122dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="327dp"
+        android:text="Scan information:"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/scanInfoName"
+        android:layout_width="122dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="286dp"
+        android:text="Patient Name" />
+
+    <TextView
+        android:id="@+id/scanInfoDate"
+        android:layout_width="122dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="247dp"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/scanInfoNumber"
+        android:layout_width="122dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="207dp"
+        android:text="Scan Number" />
+
+    <Button
+        android:id="@+id/viewerLoggoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="10dp"
+        android:text="Loggout" />
+
+
+</RelativeLayout>
