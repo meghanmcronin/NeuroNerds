@@ -76,7 +76,10 @@ tools:actionBarNavMode="standard">
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="64dp"
-        android:enabled="false"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:onClick="OnClickListener"
         android:text="@string/action_sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,10 +87,7 @@ tools:actionBarNavMode="standard">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintVertical_bias="0.19"
-        tools:text="Login"
-        android:clickable="true"
-        android:onClick="OnClickListener"
-        android:focusable="true" />
+        tools:text="Login" />
 <!--
     <Button
         android:id="@+id/button"
