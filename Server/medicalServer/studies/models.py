@@ -14,12 +14,31 @@ class Study(models.Model):
     available = models.BooleanField(default=False)
     status = models.CharField(max_length=200,default ='Not started')
     name = models.CharField(max_length=200)
-    patient = models.CharField(max_length=25)
+    patient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        #limit_choices_to={'user_type': 2},
+    )
+
     data_loc = models.FilePathField(path=studies_path, blank=True)
-    docs = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    #docs = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     def __str__(self):
         return self.name
+
+class Doctor(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    institution = models.CharField(max_length=200)
+    speciality = models.CharField(max_length=200)
+
+
+
+class Patient(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    description = models.CharField(max_length=100, null=True)
+    dob = models.DateField('date of birth')
+
+
 
 class StudyAccess(models.Model):
     user = models.CharField(max_length=200,default='Unknown')

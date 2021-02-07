@@ -88,6 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+
 }
 
 
@@ -130,9 +131,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-FREESURFER_SUBJECT_PATH = '/home/michael/freesurfer/subjects/'
-PROCESSED_SAVE_DIR = '/home/michael/temp/processedData/'
-UNPROCESSED_DATA_DIR = '/home/michael/temp/unprocessedData/'
+FREESURFER_SUBJECT_PATH = '/Applications/freesurfer/7.1.1/subjects/'
+PROCESSED_SAVE_DIR = '/home/andrescanas001/temp/processedData/'
+UNPROCESSED_DATA_DIR = '/home/andrescanas001/temp/unprocessedData/'
 MEDIA_ROOT = UNPROCESSED_DATA_DIR
 
 

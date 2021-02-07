@@ -5,6 +5,7 @@ build/
 
 project.xcworkspace/
 xcuserdata/
+venv/
 
 *.pbxuser
 *.perspective
