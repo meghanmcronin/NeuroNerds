@@ -2,9 +2,6 @@ package com.example.nsgapp;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.widget.Button;
@@ -12,14 +9,54 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.view.View;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+import static com.example.nsgapp.R.layout.activity_patient_list;
+
 public class patient_list extends AppCompatActivity {
+    private TextView studyListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_list);
+        setContentView(activity_patient_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        studyListView = findViewById(R.id.patientList);
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        InterfaceAPI api = retrofit.create(InterfaceAPI.class);
+        Call<List<Study>> call = api.getStudies();
+        call.enqueue(new Callback<List<Study>>() {
+            @Override
+            public void onResponse(Call<List<Study>> call, Response<List<Study>> response) {
+                if (!response.isSuccessful()){
+                    studyListView.setText("Code: " + response.code());
+                    return;
+                }
+                List<Study> studies = response.body();
+                for (Study study : studies){
+                    String content = "";
+                    content += "Pub Date: " + study.getPub_date() + "\n";
+                    content += "Is Processing: " + study.isProcessing() + "\n";
+                    content += "Is Available: " + study.isAvailable() + "\n";
+                    content += "Status: " + study.getStatus() + "\n";
+                    content += "Name: " + study.getName() + "\n\n";
+
+                    studyListView.append(content);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Study>> call, Throwable t) {
+                studyListView.setText(t.getMessage());
+            }
+        });
 
         Button logout_button = (Button) findViewById(R.id.logout);
         logout_button.setOnClickListener(new View.OnClickListener() {
