@@ -22,8 +22,10 @@ def auth_login(request):
      - Return serialized user data
     """
     print(request.POST)
-    username = request.POST.get('username',None)
-    password = request.POST.get('password', None)
+    x = json.loads(request.body)
+    print(x)
+    username = x['username']
+    password = x['password']
     user = authenticate(username=username, password=password)
                              
     if user:
@@ -31,12 +33,11 @@ def auth_login(request):
         #serializer = serializers.UserSerializer(user)
         studies = request.user.study_set.all() #gets only the studies the user has accessed to:
         #print all studies this user can see
-        s = list()
-
-        s.append({
+        
+        s = {
             "id" : str(user.hash_id),
             "type" : str(user.user_type)
-        })
+        }
         # for study in studies:
         #     #s = {"studyName" : "' + str(study.name) + '", "patientName" : "' + str(study.patient) + '", "studyID" : " + str(study._id) + " }
         #     s.append({

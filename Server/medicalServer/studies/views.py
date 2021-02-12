@@ -19,6 +19,7 @@ import requests
 
 @csrf_exempt
 def index(request):
+    print(request.user)
     if request.user.is_authenticated:
         if request.method == "POST":
             studyName = request.POST.get('studyName', None)

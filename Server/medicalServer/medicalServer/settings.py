@@ -29,7 +29,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '192.168.1.37',
     '192.168.1.138',
-    '10.0.2.2:8080'
+    '10.0.2.2'
 ]
 
 APPEND_SLASH = True
