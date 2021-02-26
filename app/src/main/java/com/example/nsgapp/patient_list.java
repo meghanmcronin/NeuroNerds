@@ -42,18 +42,13 @@ public class patient_list extends AppCompatActivity {
                 List<Study> studies = response.body();
                 for (Study study : studies){
                     String content = "";
-<<<<<<< HEAD
-                    content += "Study Name: " + study.getStudyName() + "\n";
-                    content += "Patient Name: " + study.getPatientName() + "\n";
-                    content += "Study ID: " + study.getStudyID() + "\n";
-                    content += "Study Status: " + study.getStudyStatus() + "\n\n";
-=======
+
                     content += "Pub Date: " + study.getPub_date() + "\n";
                     content += "Is Processing: " + study.isProcessing() + "\n";
                     content += "Is Available: " + study.isAvailable() + "\n";
                     content += "Status: " + study.getStatus() + "\n";
                     content += "Name: " + study.getName() + "\n\n";
->>>>>>> c607543eb7f084b10e9abc3da14e4429bf3a06c4
+
 
                     studyListView.append(content);
                 }

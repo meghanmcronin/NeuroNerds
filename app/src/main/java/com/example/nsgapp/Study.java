@@ -6,43 +6,8 @@ import java.io.File;
 import java.nio.file.Path;
 
 public class Study {
-<<<<<<< HEAD
-    private String studyName;
-    private String patientName;
-    private String studyID;
-    private String studyStatus;
 
-    public String getStudyName() {
-        return studyName;
-    }
 
-    public void setStudyName(String studyName) {
-        this.studyName = studyName;
-    }
-
-    public String getPatientName() {
-        return patientName;
-    }
-
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
-
-    public String getStudyID() {
-        return studyID;
-    }
-
-    public void setStudyID(String studyID) {
-        this.studyID = studyID;
-    }
-
-    public String getStudyStatus() {
-        return studyStatus;
-    }
-
-    public void setStudyStatus(String studyStatus) {
-        this.studyStatus = studyStatus;
-=======
     private int pub_date;
     private boolean isProcessing;
     private boolean available;
@@ -92,6 +57,5 @@ public class Study {
 
     public Path getData_loc() {
         return data_loc;
->>>>>>> c607543eb7f084b10e9abc3da14e4429bf3a06c4
     }
 }
