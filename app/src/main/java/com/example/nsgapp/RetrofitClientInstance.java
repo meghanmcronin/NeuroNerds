@@ -3,7 +3,7 @@ package com.example.nsgapp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-<<<<<<< HEAD
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -22,9 +22,7 @@ import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-=======
-import okhttp3.OkHttpClient;
->>>>>>> c607543eb7f084b10e9abc3da14e4429bf3a06c4
+
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -41,7 +39,7 @@ public class RetrofitClientInstance {
             gson = new GsonBuilder()
                     .setLenient()
                     .create();
-<<<<<<< HEAD
+
             
             loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -51,12 +49,7 @@ public class RetrofitClientInstance {
             okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(loggingInterceptor)
                     .cookieJar(new JavaNetCookieJar(cookieManager))
-=======
-            loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            okHttpClient = new OkHttpClient.Builder()
-                    .addInterceptor(loggingInterceptor)
->>>>>>> c607543eb7f084b10e9abc3da14e4429bf3a06c4
+
                     .build();
             retrofit = new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
