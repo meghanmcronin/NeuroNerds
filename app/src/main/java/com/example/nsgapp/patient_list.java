@@ -4,10 +4,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -63,8 +67,34 @@ public class patient_list extends AppCompatActivity {
         logout_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logout();
                 Intent intent = new Intent(patient_list.this, login_screen.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void logout() {
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        InterfaceAPI api = retrofit.create(InterfaceAPI.class);
+
+        Call<Logout> new_call = api.auth_logout();
+
+        new_call.enqueue(new Callback<Logout>() {
+            @Override
+            public void onResponse(Call<Logout> new_call, Response<Logout> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Successfully Logged Out.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(patient_list.this, login_screen.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Logout Failed.", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Logout> new_call, Throwable t) {
+                Log.e("CHECK_LOGOUT", t.toString());
+                t.printStackTrace();
             }
         });
     }
