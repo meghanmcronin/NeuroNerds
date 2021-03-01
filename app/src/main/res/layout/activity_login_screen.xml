@@ -35,8 +35,20 @@ tools:actionBarNavMode="standard">
     tools:ignore="MissingConstraints" />
 
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="NSG Patient Anatomy App"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
-<EditText
+    <EditText
     android:id="@+id/username"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
