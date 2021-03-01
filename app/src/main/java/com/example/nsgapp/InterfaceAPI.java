@@ -16,5 +16,5 @@ public interface InterfaceAPI {
     Call<LoginResponse> auth_login(@Header("Authorization") String authHeader, @Body LoginRequest loginRequest);
 
     @GET("logout")
-    Call<Logout> auth_logout();
+    Call<Void> auth_logout();
 }

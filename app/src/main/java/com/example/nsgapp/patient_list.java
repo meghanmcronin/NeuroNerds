@@ -68,8 +68,8 @@ public class patient_list extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logout();
-                Intent intent = new Intent(patient_list.this, login_screen.class);
-                startActivity(intent);
+                //Intent intent = new Intent(patient_list.this, login_screen.class);
+                //startActivity(intent);
             }
         });
     }
@@ -78,21 +78,21 @@ public class patient_list extends AppCompatActivity {
         Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
         InterfaceAPI api = retrofit.create(InterfaceAPI.class);
 
-        Call<Logout> new_call = api.auth_logout();
+        Call<Void> new_call = api.auth_logout();
 
-        new_call.enqueue(new Callback<Logout>() {
+        new_call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Logout> new_call, Response<Logout> response) {
+            public void onResponse(Call<Void> new_call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Successfully Logged Out.", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(patient_list.this, login_screen.class);
                     startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "Successfully Logged Out.", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Logout Failed.", Toast.LENGTH_LONG).show();
                 }
             }
             @Override
-            public void onFailure(Call<Logout> new_call, Throwable t) {
+            public void onFailure(Call<Void> new_call, Throwable t) {
                 Log.e("CHECK_LOGOUT", t.toString());
                 t.printStackTrace();
             }
