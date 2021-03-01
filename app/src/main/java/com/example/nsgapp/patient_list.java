@@ -72,6 +72,15 @@ public class patient_list extends AppCompatActivity {
                 //startActivity(intent);
             }
         });
+
+        Button confirm = (Button) findViewById(R.id.confirm_button);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(patient_list.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void logout() {
