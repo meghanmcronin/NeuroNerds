@@ -28,4 +28,5 @@
     <string name="logout">Logout</string>
     <string name="nsg_patient_anatomy_app">NSG Patient Anatomy App</string>
     <string name="confirm_patient">Confirm Patient</string>
+    <string name="gatorbw">gatorbw</string>
 </resources>

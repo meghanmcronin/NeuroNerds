@@ -59,7 +59,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/gatorbw" />
+        app:srcCompat="@drawable/gatorbw"
+        android:contentDescription="@string/gatorbw" />
 
     <ImageView
         android:id="@+id/brainlogo"
@@ -87,7 +88,6 @@
         android:hint="@string/username"
         android:inputType="textLongMessage|textNoSuggestions"
         android:selectAllOnFocus="true"
-        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/password"
         app:layout_constraintEnd_toEndOf="parent"
