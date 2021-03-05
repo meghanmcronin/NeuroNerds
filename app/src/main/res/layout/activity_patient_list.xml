@@ -20,6 +20,25 @@
 
     </androidx.appcompat.widget.SearchView>
 
+    <Spinner
+        android:id="@+id/spinner"
+        style="@android:style/Widget.Spinner.DropDown"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:contextClickable="true"
+        android:foregroundGravity="top"
+        android:isScrollContainer="true"
+        android:longClickable="true"
+        android:popupTheme="@style/AppTheme.AppBarOverlay"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/patientList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search"
+        tools:ignore="NotSibling"
+        tools:listitem="@android:layout/list_content" />
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"

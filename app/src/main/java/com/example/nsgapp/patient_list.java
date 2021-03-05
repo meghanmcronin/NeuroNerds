@@ -7,12 +7,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Base64;
 import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,6 +30,8 @@ import static com.example.nsgapp.R.layout.activity_patient_list;
 
 public class patient_list extends AppCompatActivity {
     private TextView studyListView;
+
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,7 @@ public class patient_list extends AppCompatActivity {
                     return;
                 }
                 List<Study> studies = response.body();
+                List<String> studyIDs = new ArrayList<>();
                 for (Study study : studies){
                     String content = "";
 
@@ -51,10 +60,35 @@ public class patient_list extends AppCompatActivity {
                     content += "Patient Name: " + study.getPatientName() + "\n";
                     content += "Study ID: " + study.getStudyID() + "\n";
                     content += "Study Status: " + study.getStudyStatus() + "\n\n";
-
+                    
+                    studyIDs.add(study.getStudyID());
 
                     studyListView.append(content);
                 }
+
+                spinner = (Spinner) findViewById(R.id.spinner);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(patient_list.this, android.R.layout.simple_spinner_item, studyIDs);
+
+
+                for(String i : studyIDs){
+                    System.out.print("STUDY ID: " + i + "\n");
+                }
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String studyNumber = parent.getItemAtPosition(position).toString();
+                        Toast.makeText(parent.getContext(), "Selected: " + studyNumber, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
 
             @Override
@@ -62,6 +96,7 @@ public class patient_list extends AppCompatActivity {
                 studyListView.setText(t.getMessage());
             }
         });
+
 
         Button logout_button = (Button) findViewById(R.id.logout);
         logout_button.setOnClickListener(new View.OnClickListener() {
