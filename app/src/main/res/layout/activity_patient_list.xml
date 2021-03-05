@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:actionBarNavMode="standard">
 
+<!--
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search"
         android:layout_width="match_parent"
@@ -19,6 +20,21 @@
         app:layout_constraintTop_toTopOf="@+id/container">
 
     </androidx.appcompat.widget.SearchView>
+-->
+    <TextView
+        android:id="@+id/item_selction_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/select_study_ID"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -32,10 +48,9 @@
         android:longClickable="true"
         android:popupTheme="@style/AppTheme.AppBarOverlay"
         android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toTopOf="@+id/patientList"
+        app:layout_constraintTop_toBottomOf="@+id/item_selction_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search"
         tools:ignore="NotSibling"
         tools:listitem="@android:layout/list_content" />
 
@@ -46,7 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
@@ -63,6 +78,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="100dp"
                 android:layout_marginEnd="24dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textSize="20dp"
                 android:scrollbars="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/patients" />
 

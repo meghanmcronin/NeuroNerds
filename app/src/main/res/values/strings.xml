@@ -29,4 +29,6 @@
     <string name="nsg_patient_anatomy_app">NSG Patient Anatomy App</string>
     <string name="confirm_patient">Confirm Patient</string>
     <string name="gatorbw">gatorbw</string>
+    <string name="select_a_study_id_number">Select a Study ID Number</string>
+    <string name="select_study_ID">Select a Study ID</string>
 </resources>
