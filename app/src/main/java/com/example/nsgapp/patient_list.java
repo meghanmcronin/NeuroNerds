@@ -63,6 +63,7 @@ public class patient_list extends AppCompatActivity {
                     
                     studyIDs.add(study.getStudyID());
 
+                    //ArrayAdapter<Study> listadapter = new ArrayAdapter<String>(patient_list.this, android.R.layout.simple_spinner_item, studies);
                     studyListView.append(content);
                 }
 
