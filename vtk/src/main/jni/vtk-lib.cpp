@@ -37,7 +37,7 @@ struct userData
     vtkAndroidRenderWindowInteractor* Interactor;
 };
 
-extern "C" JNIEXPORT jlong JNICALL Java_com_example_myapplication_MainActivity_init(
+extern "C" jlong Java_com_example_myapplication_MainActivity_init(
         JNIEnv* env, jclass obj, jint width, jint height)
 {
     vtkRenderWindow* renWin = vtkRenderWindow::New();
