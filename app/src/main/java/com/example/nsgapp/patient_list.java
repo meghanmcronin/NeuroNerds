@@ -112,9 +112,55 @@ public class patient_list extends AppCompatActivity {
                 Log.d("Failure",t.toString());
             }
         });
+
+        Button logout_button = (Button) findViewById(R.id.logout);
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+                //Intent intent = new Intent(patient_list.this, login_screen.class);
+                //startActivity(intent);
+            }
+        });
+
+        Button confirm = (Button) findViewById(R.id.confirm_button);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(patient_list.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         return null;
     }
+
+    private void logout() {
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        InterfaceAPI api = retrofit.create(InterfaceAPI.class);
+
+        Call<Void> new_call = api.auth_logout();
+
+        new_call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> new_call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Intent intent = new Intent(patient_list.this, login_screen.class);
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "Successfully Logged Out.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Logout Failed.", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> new_call, Throwable t) {
+                Log.e("CHECK_LOGOUT", t.toString());
+                t.printStackTrace();
+            }
+        });
+    }
 }
+
+
 /*
 public class patient_list extends AppCompatActivity {
     private TextView studyListView;
