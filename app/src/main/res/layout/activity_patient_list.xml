@@ -64,26 +64,12 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner"
         app:layout_constraintVertical_bias="1.0">
 
-        <LinearLayout
+        <ListView
+            android:id="@+id/patientList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/patientList"
-                android:layout_width="match_parent"
-                android:layout_height="532dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginEnd="24dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:textSize="20sp"
-                android:scrollbars="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/patients" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/spinner"
+            />
     </ScrollView>
 
     <Button

@@ -21,13 +21,101 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import android.util.Log;
+import android.app.Activity;
+import android.app.ProgressDialog;
+
+import android.widget.ListView;
+
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.nsgapp.R.layout.activity_patient_list;
 
+public class patient_list extends AppCompatActivity {
+
+    private Button confirmpt;
+    String responseText;
+    Activity activity;
+    ArrayList<Study> studies=new ArrayList();
+    private ProgressDialog progressDialog;
+    ListView listView;
+
+    //Base URL of our web service
+    public static final String BASE_URL = "http://10.0.2.2:8080/";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_patient_list);
+        activity = this;
+        confirmpt = (Button) findViewById(R.id.confirm_button);
+        listView = (ListView) findViewById(R.id.patientList);
+        confirmpt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                studies.clear();
+
+                progressDialog = new ProgressDialog(patient_list.this);
+                progressDialog.setMessage("Fetching patient data");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                //Call WebService
+                getWebServiceResponseData();
+            }
+        });
+    }
+
+    protected Void getWebServiceResponseData() {
+
+        //Creating Retrofit rest adapter
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //Creating an object of our api interface
+        InterfaceAPI api = retrofit.create(InterfaceAPI.class);
+        Call<List<Study>> call = api.getStudies();
+
+        call.enqueue(new Callback<List<Study>>() {
+            @Override
+            public void onResponse(Call<List<Study>> call, Response<List<Study>> response) {
+                try {
+
+                    studies= (ArrayList<Study>)response.body();
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    // For populating list data
+                    CustomPatientList customPatientList = new CustomPatientList(activity, studies);
+                    listView.setAdapter(customPatientList);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Toast.makeText(getApplicationContext(),"You Selected "+studies.get(position).getStudyName(),Toast.LENGTH_SHORT).show();        }
+                    });
+                } catch (Exception e) {
+                    Log.d("onResponse", "There is an error");
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Study>> call, Throwable t) {
+                Log.d("Failure",t.toString());
+            }
+        });
+        return null;
+    }
+}
+/*
 public class patient_list extends AppCompatActivity {
     private TextView studyListView;
 
@@ -160,4 +248,4 @@ public class patient_list extends AppCompatActivity {
         }
     }
     */
-}
+//}
