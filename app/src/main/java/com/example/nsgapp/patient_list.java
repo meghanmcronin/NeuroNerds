@@ -72,13 +72,8 @@ public class patient_list extends AppCompatActivity {
 
     protected Void getWebServiceResponseData() {
 
-        //Creating Retrofit rest adapter
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
         //Creating an object of our api interface
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
         InterfaceAPI api = retrofit.create(InterfaceAPI.class);
         Call<List<Study>> call = api.getStudies();
 
