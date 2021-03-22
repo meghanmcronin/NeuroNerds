@@ -1,9 +1,43 @@
+/*=========================================================================
+  Program:   Visualization Toolkit
+  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+  All rights reserved.
+  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notice for more information.
+=========================================================================*/
+/*
+ * Copyright (C) 2010 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 #include <errno.h>
 #include <jni.h>
 #include <sstream>
 
 #include "vtkNew.h"
-#include "vtkNIFTIImageReader.h"
+
+#define SYNTHETIC 1
+#ifdef SYNTHETIC
+#include "vtkImageCast.h"
+#include "vtkRTAnalyticSource.h"
+#else
+#include "vtkNrrdReader.h"
+#endif
+
 #include "vtkActor.h"
 #include "vtkCamera.h"
 #include "vtkColorTransferFunction.h"
@@ -23,12 +57,27 @@
 #include "vtkTextProperty.h"
 #include "vtkVolume.h"
 #include "vtkVolumeProperty.h"
-#include "vtkSmartPointer.h"
 
 #include "vtkAndroidRenderWindowInteractor.h"
 #include "vtkCommand.h"
 
 #include <android/log.h>
+
+#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "NativeVTK", __VA_ARGS__))
+#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "NativeVTK", __VA_ARGS__))
+
+extern "C"
+{
+JNIEXPORT jlong JNICALL Java_com_example_myapplication_VolumeRenderLib_init(
+        JNIEnv* env, jobject obj, jint width, jint height);
+JNIEXPORT void JNICALL Java_com_example_myapplication_VolumeRenderLib_render(
+        JNIEnv* env, jobject obj, jlong renWinP);
+JNIEXPORT void JNICALL Java_com_example_myapplication_VolumeRenderLib_onKeyEvent(JNIEnv* env,
+                                                                                jobject obj, jlong udp, jboolean down, jint keyCode, jint metaState, jint repeatCount);
+JNIEXPORT void JNICALL Java_com_example_myapplication_VolumeRenderLib_onMotionEvent(JNIEnv* env,
+                                                                                   jobject obj, jlong udp, jint action, jint eventPointer, jint numPtrs, jfloatArray xPos,
+                                                                                   jfloatArray yPos, jintArray ids, jint metaState);
+};
 
 struct userData
 {
@@ -37,8 +86,11 @@ struct userData
     vtkAndroidRenderWindowInteractor* Interactor;
 };
 
-extern "C" jlong Java_com_example_myapplication_MainActivity_init(
-        JNIEnv* env, jclass obj, jint width, jint height)
+/*
+ * Here is where you would setup your pipeline and other normal VTK logic
+ */
+JNIEXPORT jlong JNICALL Java_com_example_myapplication_VolumeRenderLib_init(
+        JNIEnv* env, jobject obj, jint width, jint height)
 {
     vtkRenderWindow* renWin = vtkRenderWindow::New();
     char jniS[4] = { 'j', 'n', 'i', 0 };
@@ -54,19 +106,36 @@ extern "C" jlong Java_com_example_myapplication_MainActivity_init(
 
     vtkNew<vtkPiecewiseFunction> pwf;
 
-    vtkNew<vtkNIFTIImageReader> mi;
-    mi->SetFileName("C:/Users/joese/Desktop/NBIA data/Nifti/aparc+aseg.nii");
-    mi->Update();
-    volumeMapper->SetInputConnection(mi->GetOutputPort());
-    volumeMapper->SetAutoAdjustSampleDistances(1);
-    volumeMapper->SetSampleDistance(0.5);
+#ifdef SYNTHETIC
+    vtkNew<vtkRTAnalyticSource> wavelet;
+    wavelet->SetWholeExtent(-63, 64, -63, 64, -63, 64);
+    wavelet->SetCenter(0.0, 0.0, 0.0);
 
-    double tweak = 80.0;
+    vtkNew<vtkImageCast> ic;
+    ic->SetInputConnection(wavelet->GetOutputPort());
+    ic->SetOutputScalarTypeToUnsignedChar();
+    volumeMapper->SetInputConnection(ic->GetOutputPort());
+
     pwf->AddPoint(0, 0);
-    pwf->AddPoint(255 * (67.0106 + tweak) / 3150.0, 0);
-    pwf->AddPoint(255 * (251.105 + tweak) / 3150.0, 0.3);
-    pwf->AddPoint(255 * (439.291 + tweak) / 3150.0, 0.5);
-    pwf->AddPoint(255 * 3071 / 3150.0, 0.616071);
+    pwf->AddPoint(255, 0.1);
+#else
+    vtkNew<vtkNrrdReader> mi;
+  mi->SetFileName("/mnt/user/0/primary/sub-3015_T1w.nii.gz");
+  mi->Update();
+
+  double range[2];
+  mi->GetOutput()->GetPointData()->GetScalars()->GetRange(range);
+  LOGI("Min %f Max %f type %s", range[0], range[1], mi->GetOutput()->GetScalarTypeAsString());
+
+  volumeMapper->SetInputConnection(mi->GetOutputPort());
+
+  double tweak = 80.0;
+  pwf->AddPoint(0, 0);
+  pwf->AddPoint(255 * (67.0106 + tweak) / 3150.0, 0);
+  pwf->AddPoint(255 * (251.105 + tweak) / 3150.0, 0.3);
+  pwf->AddPoint(255 * (439.291 + tweak) / 3150.0, 0.5);
+  pwf->AddPoint(255 * 3071 / 3150.0, 0.616071);
+#endif
 
     volumeMapper->SetAutoAdjustSampleDistances(1);
     volumeMapper->SetSampleDistance(0.5);
@@ -94,7 +163,7 @@ extern "C" jlong Java_com_example_myapplication_MainActivity_init(
     renderer->GradientBackgroundOn();
     renderer->AddVolume(volume.GetPointer());
     renderer->ResetCamera();
-
+    //  renderer->GetActiveCamera()->Zoom(1.4);
     renderer->GetActiveCamera()->Zoom(0.7);
 
     struct userData* foo = new struct userData();
@@ -105,8 +174,8 @@ extern "C" jlong Java_com_example_myapplication_MainActivity_init(
     return (jlong)foo;
 }
 
-extern "C" JNIEXPORT void JNICALL Java_com_example_myapplication_MainActivity_render(
-        JNIEnv* env, jclass obj, jlong udp)
+JNIEXPORT void JNICALL Java_com_example_myapplication_VolumeRenderLib_render(
+        JNIEnv* env, jobject obj, jlong udp)
 {
     struct userData* foo = (userData*)(udp);
     foo->RenderWindow->SwapBuffersOff(); // android does it
@@ -114,3 +183,42 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_myapplication_MainActivity_re
     foo->RenderWindow->SwapBuffersOn(); // reset
 }
 
+JNIEXPORT void JNICALL Java_com_example_myapplication_VolumeRenderLib_onKeyEvent(JNIEnv* env,
+                                                                                jobject obj, jlong udp, jboolean down, jint keyCode, jint metaState, jint repeatCount)
+{
+    struct userData* foo = (userData*)(udp);
+    foo->Interactor->HandleKeyEvent(down, keyCode, metaState, repeatCount);
+}
+
+JNIEXPORT void JNICALL Java_com_example_myapplication_VolumeRenderLib_onMotionEvent(JNIEnv* env,
+                                                                                   jobject obj, jlong udp, jint action, jint eventPointer, jint numPtrs, jfloatArray xPos,
+                                                                                   jfloatArray yPos, jintArray ids, jint metaState)
+{
+    struct userData* foo = (userData*)(udp);
+
+    int xPtr[VTKI_MAX_POINTERS];
+    int yPtr[VTKI_MAX_POINTERS];
+    int idPtr[VTKI_MAX_POINTERS];
+
+    // only allow VTKI_MAX_POINTERS touches right now
+    if (numPtrs > VTKI_MAX_POINTERS)
+    {
+        numPtrs = VTKI_MAX_POINTERS;
+    }
+
+    // fill in the arrays
+    jfloat* xJPtr = env->GetFloatArrayElements(xPos, 0);
+    jfloat* yJPtr = env->GetFloatArrayElements(yPos, 0);
+    jint* idJPtr = env->GetIntArrayElements(ids, 0);
+    for (int i = 0; i < numPtrs; ++i)
+    {
+        xPtr[i] = (int)xJPtr[i];
+        yPtr[i] = (int)yJPtr[i];
+        idPtr[i] = idJPtr[i];
+    }
+    env->ReleaseIntArrayElements(ids, idJPtr, 0);
+    env->ReleaseFloatArrayElements(xPos, xJPtr, 0);
+    env->ReleaseFloatArrayElements(yPos, yJPtr, 0);
+
+    foo->Interactor->HandleMotionEvent(action, eventPointer, numPtrs, xPtr, yPtr, idPtr, metaState);
+}

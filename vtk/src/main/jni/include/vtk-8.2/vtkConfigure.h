@@ -94,7 +94,7 @@
 #include "vtkVersionMacros.h" // removed by VTK_LEGACY_REMOVE
 
 /* C++ compiler used.  */
-#define VTK_CXX_COMPILER "/root/Android/Sdk/ndk/17.2.4988734/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin/aarch64-linux-android-g++"
+#define VTK_CXX_COMPILER "/home/tk/Downloads/android-ndk-r17c/toolchains/x86_64-4.9/prebuilt/linux-x86_64/bin/x86_64-linux-android-g++"
 
 /* Compatibility settings.  */
 /* #undef VTK_LEGACY_REMOVE */

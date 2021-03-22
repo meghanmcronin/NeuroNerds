@@ -39,4 +39,4 @@
 #  endif
 #endif
 
-#endif /* VTKDOUBLECONVERSION_EXPORT_H */
+#endif

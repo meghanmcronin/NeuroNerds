@@ -364,20 +364,15 @@ find_library(
         log
 )
 
-target_link_libraries(
-        vtk-lib
-        ${log-lib}
-)
+target_link_libraries(vtk-lib ${log-lib})
 target_link_libraries(vtk-lib GLESv3)
 target_link_libraries(vtk-lib EGL)
 target_link_libraries(vtk-lib android)
 
 target_link_libraries(
         vtk-lib
-
         # Prebuilt libs ---------
         -Wl,--start-group -L ${TARGET_OUT}
-        vtk-common-color
         vtk-common-computational-geometry
         vtk-common-core
         vtk-common-data-model
@@ -427,6 +422,7 @@ target_link_libraries(
         vtk-testing-rendering
         vtk-tiff
         vtk-zlib
+        vtk-common-color
         -Wl,--end-group
         # ---------
 )

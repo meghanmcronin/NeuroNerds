@@ -4,7 +4,7 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.5)
    message(FATAL_ERROR "CMake >= 2.6.0 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.6...3.17)
+cmake_policy(VERSION 2.6)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -63,7 +63,7 @@ add_library(vtkCommonCore STATIC IMPORTED)
 
 set_target_properties(vtkCommonCore PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_nullptr;cxx_override"
-  INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:vtksys>;\$<LINK_ONLY:-pthread>;\$<LINK_ONLY:log>"
+  INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:vtksys>;\$<LINK_ONLY:log>"
 )
 
 # Create imported target vtkCommonMath
@@ -87,7 +87,7 @@ add_library(vtkCommonSystem STATIC IMPORTED)
 
 set_target_properties(vtkCommonSystem PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_nullptr;cxx_override"
-  INTERFACE_LINK_LIBRARIES "vtkCommonCore;\$<LINK_ONLY:vtksys>;\$<LINK_ONLY:-pthread>"
+  INTERFACE_LINK_LIBRARIES "vtkCommonCore;\$<LINK_ONLY:vtksys>"
 )
 
 # Create imported target vtkCommonTransforms
@@ -336,7 +336,7 @@ add_library(vtklibxml2 STATIC IMPORTED)
 
 set_target_properties(vtklibxml2 PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_nullptr;cxx_override"
-  INTERFACE_LINK_LIBRARIES "vtkzlib;dl;-pthread;dl;m"
+  INTERFACE_LINK_LIBRARIES "vtkzlib;dl;dl;m"
 )
 
 # Create imported target vtkIOInfovis
@@ -416,7 +416,7 @@ add_library(vtkRenderingOpenGL2 STATIC IMPORTED)
 
 set_target_properties(vtkRenderingOpenGL2 PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_nullptr;cxx_override"
-  INTERFACE_LINK_LIBRARIES "vtkCommonCore;vtkCommonDataModel;vtkRenderingCore;vtkRenderingCore;\$<LINK_ONLY:vtkCommonExecutionModel>;\$<LINK_ONLY:vtkCommonMath>;\$<LINK_ONLY:vtkCommonSystem>;\$<LINK_ONLY:vtkCommonTransforms>;\$<LINK_ONLY:vtkglew>;\$<LINK_ONLY:vtksys>;/root/Android/Sdk/ndk/17.2.4988734/platforms/android-21/arch-arm64/usr/lib/libEGL.so;\$<LINK_ONLY:android>"
+  INTERFACE_LINK_LIBRARIES "vtkCommonCore;vtkCommonDataModel;vtkRenderingCore;vtkRenderingCore;\$<LINK_ONLY:vtkCommonExecutionModel>;\$<LINK_ONLY:vtkCommonMath>;\$<LINK_ONLY:vtkCommonSystem>;\$<LINK_ONLY:vtkCommonTransforms>;\$<LINK_ONLY:vtkglew>;\$<LINK_ONLY:vtksys>;/home/tk/Downloads/android-ndk-r17c/platforms/android-23/arch-x86_64/usr/lib64/libEGL.so;\$<LINK_ONLY:android>"
 )
 
 # Create imported target vtkRenderingVolume
