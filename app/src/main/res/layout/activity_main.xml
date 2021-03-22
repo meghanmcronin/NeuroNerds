@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:flow_wrapMode="aligned">
+    android:layout_height="match_parent" >
 
 
     <android.opengl.GLSurfaceView
         android:id="@+id/GLsurface"
-        android:layout_width="344dp"
-        android:layout_height="286dp"
+        android:layout_width="348dp"
+        android:layout_height="253dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="80dp"
         android:textStyle="bold"

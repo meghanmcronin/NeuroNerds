@@ -9,45 +9,47 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+// Tutorial from: https://java2blog.com/retrofit-android-tutorial/
+
 public class CustomPatientList extends BaseAdapter {
 
-    private Activity context;
+    private final Activity context;
     ArrayList<Study> patients;
 
     public CustomPatientList(Activity context, ArrayList<Study> patients) {
-        //   super(context, R.layout.row_item, countries);
         this.context = context;
         this.patients = patients;
-
     }
-
     public static class ViewHolder
     {
-        //TextView textViewId;
         TextView textViewPatient;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View row=convertView;
+        View row = convertView;
 
         LayoutInflater inflater = context.getLayoutInflater();
         ViewHolder vh;
         if(convertView==null) {
-            vh=new ViewHolder();
+            vh = new ViewHolder();
             row = inflater.inflate(R.layout.content_patient_list, null, true);
-            //vh.textViewId = (TextView) row.findViewById(R.id.patientList);
             vh.textViewPatient = (TextView) row.findViewById(R.id.patientList);
-            // store the holder with the view.
             row.setTag(vh);
         }
         else {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        vh.textViewPatient.setText(patients.get(position).getStudyName());
-        //vh.textViewId.setText(""+countries.get(position).getId());
+        String content = "";
 
-        return  row;
+        content += "Study Name: " + patients.get(position).getStudyName() + "\n";
+        content += "Patient Name: " + patients.get(position).getPatientName() + "\n";
+        content += "Study ID: " + patients.get(position).getStudyID() + "\n";
+        content += "Study Status: " + patients.get(position).getStudyStatus() + "\n\n";
+
+        vh.textViewPatient.setText(content);
+        return row;
     }
 
     public long getItemId(int position) {

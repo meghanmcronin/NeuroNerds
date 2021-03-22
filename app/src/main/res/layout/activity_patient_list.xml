@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:actionBarNavMode="standard">
+    android:layout_height="match_parent">
 
-<!--
+    <!--
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search"
         android:layout_width="match_parent"
@@ -21,21 +20,7 @@
 
     </androidx.appcompat.widget.SearchView>
 -->
-    <TextView
-        android:id="@+id/item_selction_title"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:elegantTextHeight="true"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="@string/select_study_ID"
-        android:textAlignment="center"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    <!--
     <Spinner
         android:id="@+id/spinner"
         style="@android:style/Widget.Spinner.DropDown"
@@ -48,29 +33,51 @@
         android:longClickable="true"
         android:popupTheme="@style/AppTheme.AppBarOverlay"
         android:spinnerMode="dropdown"
-        app:layout_constraintTop_toBottomOf="@+id/item_selction_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_selction_title"
         tools:ignore="NotSibling"
         tools:listitem="@android:layout/list_content" />
+-->
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <ListView
+        android:id="@+id/patientList"
+        android:layout_width="347dp"
+        android:layout_height="519dp"
+        android:layout_marginBottom="25dp"
+        android:choiceMode="singleChoice"
+        android:clickable="false"
+        android:contextClickable="true"
+        android:descendantFocusability="blocksDescendants"
+        android:fitsSystemWindows="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:foregroundGravity="center|center_horizontal"
+        android:headerDividersEnabled="false"
+        android:isScrollContainer="true"
+        app:layout_constraintBottom_toTopOf="@+id/confirm_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"
-        app:layout_constraintVertical_bias="1.0">
 
-        <ListView
-            android:id="@+id/patientList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/spinner"
-            />
-    </ScrollView>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_selction_title"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@android:layout/list_content" />
+
+    <TextView
+        android:id="@+id/item_selction_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:elegantTextHeight="true"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="@string/select_a_patient"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/confirm_button"
@@ -96,7 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="692dp"
-        app:layout_constraintTop_toBottomOf="@id/confirm_button"/>
+        app:layout_constraintTop_toBottomOf="@id/confirm_button"
+        tools:layout_editor_absoluteY="692dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

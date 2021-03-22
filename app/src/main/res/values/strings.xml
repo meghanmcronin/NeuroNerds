@@ -31,4 +31,6 @@
     <string name="gatorbw">gatorbw</string>
     <string name="select_a_study_id_number">Select a Study ID Number</string>
     <string name="select_study_ID">Select a Study ID</string>
+    <string name="select_a_study">Select a Study</string>
+    <string name="select_a_patient">Select a Patient</string>
 </resources>

@@ -37,11 +37,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.nsgapp.R.layout.activity_patient_list;
 
 public class patient_list extends AppCompatActivity {
-
-    private Button confirmpt;
+    boolean isSelected = false;
     String responseText;
     Activity activity;
-    ArrayList<Study> studies=new ArrayList();
+    ArrayList<Study> studies = new ArrayList();
     private ProgressDialog progressDialog;
     ListView listView;
 
@@ -53,21 +52,15 @@ public class patient_list extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_list);
         activity = this;
-        confirmpt = (Button) findViewById(R.id.confirm_button);
         listView = (ListView) findViewById(R.id.patientList);
-        confirmpt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                studies.clear();
+        studies.clear();
 
-                progressDialog = new ProgressDialog(patient_list.this);
-                progressDialog.setMessage("Fetching patient data");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                //Call WebService
-                getWebServiceResponseData();
-            }
-        });
+        progressDialog = new ProgressDialog(patient_list.this);
+        progressDialog.setMessage("Fetching patient data");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        //Call WebService
+        getWebServiceResponseData();
     }
 
     protected Void getWebServiceResponseData() {
@@ -81,20 +74,26 @@ public class patient_list extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Study>> call, Response<List<Study>> response) {
                 try {
-
-                    studies= (ArrayList<Study>)response.body();
+                    studies = (ArrayList<Study>)response.body();
 
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
                     // For populating list data
+
+                    //CustomPatientList customPatientList = new CustomPatientList(activity, studies);
+                    //ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listView.);
+                    //listView.setAdapter(customPatientList);
+
                     CustomPatientList customPatientList = new CustomPatientList(activity, studies);
                     listView.setAdapter(customPatientList);
-
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                            Toast.makeText(getApplicationContext(),"You Selected "+studies.get(position).getStudyName(),Toast.LENGTH_SHORT).show();        }
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //Object item = customPatientList.getItem(position);
+                            Toast.makeText(getApplicationContext(),"You Selected "+ studies.get(position).getStudyName(),Toast.LENGTH_SHORT).show();
+                            isSelected = true;   }
                     });
+
                 } catch (Exception e) {
                     Log.d("onResponse", "There is an error");
                     e.printStackTrace();
@@ -113,8 +112,6 @@ public class patient_list extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logout();
-                //Intent intent = new Intent(patient_list.this, login_screen.class);
-                //startActivity(intent);
             }
         });
 
@@ -124,6 +121,14 @@ public class patient_list extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patient_list.this, MainActivity.class);
                 startActivity(intent);
+                /*
+                if(isSelected) {
+                    Intent intent = new Intent(patient_list.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else
+                    Toast.makeText(getApplicationContext(),"Select a study!",Toast.LENGTH_SHORT).show();
+            } */
             }
         });
         return null;
