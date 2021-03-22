@@ -147,7 +147,7 @@ public class patient_list extends AppCompatActivity {
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            File niftiFile = new File(getExternalFilesDir("studies?studyID=num") + File.separator + "Future Studio Icon.png");
+            File niftiFile = new File(getExternalFilesDir("studies?studyID=num") + File.separator + "test-download.nii");
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -184,7 +184,6 @@ public class patient_list extends AppCompatActivity {
                 if (inputStream != null) {
                     inputStream.close();
                 }
-
                 if (outputStream != null) {
                     outputStream.close();
                 }
