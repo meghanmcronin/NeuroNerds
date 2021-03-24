@@ -16,10 +16,16 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 
 import android.util.Log;
 import android.app.Activity;
@@ -27,7 +33,7 @@ import android.app.ProgressDialog;
 
 import android.widget.ListView;
 
-
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,6 +75,28 @@ public class patient_list extends AppCompatActivity {
         Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
         InterfaceAPI api = retrofit.create(InterfaceAPI.class);
         Call<List<Study>> call = api.getStudies();
+
+        Call<ResponseBody> nifti = api.downloadNifti();
+        nifti.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.d("exists", "server contacted and has file");
+
+                    boolean writtenToDisk = writeResponseBodyToDisk(response.body());
+
+                    Log.d("downloaded", "file download was a success? " + writtenToDisk);
+                }
+                else {
+                    Log.d("failure", "server contact failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("error", "error");
+            }
+        });
 
         call.enqueue(new Callback<List<Study>>() {
             @Override
@@ -132,6 +160,54 @@ public class patient_list extends AppCompatActivity {
             }
         });
         return null;
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body) {
+        try {
+            File niftiFile = new File(getExternalFilesDir("studies?studyID=num") + File.separator + "test-download.nii");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(niftiFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+
+                    Log.d("downloaded", "file download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     private void logout() {
@@ -232,6 +308,27 @@ public class patient_list extends AppCompatActivity {
             }
         });
 
+        Call<ResponseBody> nifti = api.downloadNifti();
+        nifti.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.d("exists", "server contacted and has file");
+
+                    boolean writtenToDisk = writeResponseBodyToDisk(response.body());
+
+                    Log.d("downloaded", "file download was a success? " + writtenToDisk);
+                }
+                else {
+                    Log.d("failure", "server contact failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("error", "error");
+            }
+        });
 
         Button logout_button = (Button) findViewById(R.id.logout);
         logout_button.setOnClickListener(new View.OnClickListener() {
@@ -251,6 +348,54 @@ public class patient_list extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body) {
+        try {
+            File niftiFile = new File(getExternalFilesDir("studies?studyID=num") + File.separator + "test-download.nii");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(niftiFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+
+                    Log.d("downloaded", "file download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     private void logout() {
@@ -277,7 +422,8 @@ public class patient_list extends AppCompatActivity {
             }
         });
     }
-/*
+
+    /*
     public void back_to_login(View view)
     {
         String button_text;
