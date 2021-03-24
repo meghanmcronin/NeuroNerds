@@ -10,14 +10,15 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 public interface InterfaceAPI {
     @GET("studies")
     Call<List<Study>> getStudies();
 
     @Streaming
-    @GET("studies?studyID=num")
-    Call<ResponseBody> downloadNifti();
+    @GET
+    Call<ResponseBody> downloadNifti(@Url String fileUrl);
 
     @POST("login")
     Call<LoginResponse> auth_login(@Header("Authorization") String authHeader, @Body LoginRequest loginRequest);

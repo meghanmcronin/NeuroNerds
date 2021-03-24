@@ -44,6 +44,7 @@ import static com.example.nsgapp.R.layout.activity_patient_list;
 
 public class patient_list extends AppCompatActivity {
     boolean isSelected = false;
+    String fileurl = "studies?studyID=";
     String responseText;
     Activity activity;
     ArrayList<Study> studies = new ArrayList();
@@ -69,41 +70,17 @@ public class patient_list extends AppCompatActivity {
         getWebServiceResponseData();
     }
 
-    protected Void getWebServiceResponseData() {
-
+    protected void getWebServiceResponseData() {
         //Creating an object of our api interface
         Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
         InterfaceAPI api = retrofit.create(InterfaceAPI.class);
         Call<List<Study>> call = api.getStudies();
-
-        Call<ResponseBody> nifti = api.downloadNifti();
-        nifti.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    Log.d("exists", "server contacted and has file");
-
-                    boolean writtenToDisk = writeResponseBodyToDisk(response.body());
-
-                    Log.d("downloaded", "file download was a success? " + writtenToDisk);
-                }
-                else {
-                    Log.d("failure", "server contact failed");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("error", "error");
-            }
-        });
 
         call.enqueue(new Callback<List<Study>>() {
             @Override
             public void onResponse(Call<List<Study>> call, Response<List<Study>> response) {
                 try {
                     studies = (ArrayList<Study>)response.body();
-
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
                     // For populating list data
@@ -119,16 +96,15 @@ public class patient_list extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             //Object item = customPatientList.getItem(position);
                             Toast.makeText(getApplicationContext(),"You Selected "+ studies.get(position).getStudyName(),Toast.LENGTH_SHORT).show();
-                            isSelected = true;   }
+                            fileurl = fileurl.concat(studies.get(position).getStudyID());
+                            isSelected = true;
+                        }
                     });
-
                 } catch (Exception e) {
                     Log.d("onResponse", "There is an error");
                     e.printStackTrace();
                 }
-
             }
-
             @Override
             public void onFailure(Call<List<Study>> call, Throwable t) {
                 Log.d("Failure",t.toString());
@@ -147,53 +123,56 @@ public class patient_list extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patient_list.this, MainActivity.class);
-                startActivity(intent);
-                /*
                 if(isSelected) {
+                    Call<ResponseBody> nifti = api.downloadNifti(fileurl);
+                    nifti.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("exists", "server contacted and has file");
+                                boolean writtenToDisk = writeResponseBodyToDisk(response.body());
+                                Log.d("downloaded", "file download was a success? " + writtenToDisk);
+                            }
+                            else {
+                                Log.d("failure", "server contact failed");
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Log.e("error", "error");
+                        }
+                    });
                     Intent intent = new Intent(patient_list.this, MainActivity.class);
                     startActivity(intent);
                 }
                 else
                     Toast.makeText(getApplicationContext(),"Select a study!",Toast.LENGTH_SHORT).show();
-            } */
             }
         });
-        return null;
     }
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
             File niftiFile = new File(getExternalFilesDir("studies?studyID=num") + File.separator + "test-download.nii");
-
             InputStream inputStream = null;
             OutputStream outputStream = null;
-
             try {
                 byte[] fileReader = new byte[4096];
-
                 long fileSize = body.contentLength();
                 long fileSizeDownloaded = 0;
-
                 inputStream = body.byteStream();
                 outputStream = new FileOutputStream(niftiFile);
 
                 while (true) {
                     int read = inputStream.read(fileReader);
-
                     if (read == -1) {
                         break;
                     }
-
                     outputStream.write(fileReader, 0, read);
-
                     fileSizeDownloaded += read;
-
                     Log.d("downloaded", "file download: " + fileSizeDownloaded + " of " + fileSize);
                 }
-
                 outputStream.flush();
-
                 return true;
             } catch (IOException e) {
                 return false;
@@ -215,7 +194,6 @@ public class patient_list extends AppCompatActivity {
         InterfaceAPI api = retrofit.create(InterfaceAPI.class);
 
         Call<Void> new_call = api.auth_logout();
-
         new_call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> new_call, Response<Void> response) {
