@@ -16,7 +16,7 @@
             android:launchMode="singleTask"
             android:configChanges="orientation|keyboardHidden">
             <meta-data android:name="android.app.libvtk-vtk"
-                android:value="VolumeRender" />
+                android:value="VTKView" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
