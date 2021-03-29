@@ -1,0 +1,3 @@
+include ':vtk'
+include ':app'
+rootProject.name = "NSGapp"
