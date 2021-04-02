@@ -7,10 +7,10 @@ import java.nio.file.Path;
 
 public class Study {
 
-    private String studyName;
-    private String patientName;
-    private String studyID;
-    private String studyStatus;
+    public String studyName;
+    public String patientName;
+    public String studyID;
+    public String studyStatus;
 
     public String getStudyName() {
         return studyName;

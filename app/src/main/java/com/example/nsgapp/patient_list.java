@@ -81,17 +81,39 @@ public class patient_list extends AppCompatActivity {
                     // For populating list data
 
                     //CustomPatientList customPatientList = new CustomPatientList(activity, studies);
-                    //ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listView.);
+                    //ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, );
                     //listView.setAdapter(customPatientList);
 
                     CustomPatientList customPatientList = new CustomPatientList(activity, studies);
                     listView.setAdapter(customPatientList);
+/*
+                    listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Toast.makeText(patient_list.this,"You Selected "+ studies.get(position).getStudyName(),Toast.LENGTH_SHORT).show();
+                            isSelected = true;
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    }); */
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //Object item = customPatientList.getItem(position);
-                            Toast.makeText(getApplicationContext(),"You Selected "+ studies.get(position).getStudyName(),Toast.LENGTH_SHORT).show();
-                            isSelected = true;   }
+                            view.setSelected(true);
+                            String content = "";
+
+                            content += "Study Name: " + studies.get(position).getStudyName() + "\n";
+                            content += "Patient Name: " + studies.get(position).getPatientName() + "\n";
+                            content += "Study ID: " + studies.get(position).getStudyID() + "\n";
+                            content += "Study Status: " + studies.get(position).getStudyStatus() + "\n\n";
+
+                            responseText = content;
+                            Toast.makeText(patient_list.this,"You Selected "+ studies.get(position).getStudyName(),Toast.LENGTH_SHORT).show();
+                            isSelected = true;
+                            }
                     });
 
                 } catch (Exception e) {
@@ -119,16 +141,16 @@ public class patient_list extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 Intent intent = new Intent(patient_list.this, MainActivity.class);
                 startActivity(intent);
-                /*
-                if(isSelected) {
+                */
+                if (isSelected) {
                     Intent intent = new Intent(patient_list.this, MainActivity.class);
+                    intent.putExtra("extra", responseText);
                     startActivity(intent);
-                }
-                else
-                    Toast.makeText(getApplicationContext(),"Select a study!",Toast.LENGTH_SHORT).show();
-            } */
+                } else
+                    Toast.makeText(getApplicationContext(), "Select a study!", Toast.LENGTH_SHORT).show();
             }
         });
         return null;

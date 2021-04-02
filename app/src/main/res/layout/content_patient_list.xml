@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.app.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
+    android:clickable="false"
+    android:focusable="false"
     android:orientation="vertical">
     <!--
     android:background="@drawable/menu_item_background_selector"
@@ -26,6 +26,8 @@
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/patients"
         android:focusable="false"
+        android:clickable="false"
+        android:background="@drawable/list_item_selector"
         android:focusableInTouchMode="false"
         android:descendantFocusability="blocksDescendants"/>
    <!-- <TextView

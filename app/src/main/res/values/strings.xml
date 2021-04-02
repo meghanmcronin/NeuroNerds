@@ -33,4 +33,5 @@
     <string name="select_study_ID">Select a Study ID</string>
     <string name="select_a_study">Select a Study</string>
     <string name="select_a_patient">Select a Patient</string>
+    <string name="patient_information"><![CDATA[<Patient Information>]]></string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.nsgapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView patInfo = findViewById(R.id.patientContent);
+        String patientInfo = getIntent().getStringExtra("extra");
+        patInfo.setText(patientInfo);
 
         Button logout_button = (Button) findViewById(R.id.viewerLoggoutButton);
         logout_button.setOnClickListener(new View.OnClickListener() {
