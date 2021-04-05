@@ -113,4 +113,3 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_myapplication_MainActivity_re
     foo->RenderWindow->Render();
     foo->RenderWindow->SwapBuffersOn(); // reset
 }
-
