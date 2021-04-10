@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.4.1)
 #set(CMAKE_SYSTEM_NAME Android)
-#set(CMAKE_SYSTEM_VERSION "24")
-#set(CMAKE_ANDROID_ARCH_ABI "armeabi-v7a")
-#set(CMAKE_ANDROID_NDK "/home/VTK/android-ndk-r16b")
-set(VTK_DIR "C:\\Users\\joese\\AndroidStudioProjects\\TikiVTK\\NeuroNerds\\vtk\\src\\main\\jni\\lib\\cmake\\vtk-8.2")
+set(CMAKE_SYSTEM_VERSION "24")
+set(CMAKE_ANDROID_ARCH_ABI "x86_64")
+set(CMAKE_ANDROID_NDK "/home/VTK/android-ndk-r16b")
+set(VTK_DIR "/home/tk/Desktop/NeuroNerds/vtk/src/main/jni/lib/cmake/vtk-8.2")
 #set(VTK_DIR "/home/VTK/VTK-8.2.0/build/CMakeExternals/Build/vtk-android-24-armeabi")
 #project(VolumeRender)
 

@@ -30,6 +30,13 @@
 
 #include <android/log.h>
 
+#define  LOG_TAG    "someTag"
+
+#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+#define  LOGW(...)  __android_log_print(ANDROID_LOG_WARN,LOG_TAG,__VA_ARGS__)
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+
 struct userData
 {
     vtkRenderWindow* RenderWindow;
@@ -40,6 +47,7 @@ struct userData
 extern "C" jlong Java_com_example_myapplication_MainActivity_init(
         JNIEnv* env, jclass obj, jint width, jint height)
 {
+    LOGD("Begin initialization");
     vtkRenderWindow* renWin = vtkRenderWindow::New();
     char jniS[4] = { 'j', 'n', 'i', 0 };
     renWin->SetWindowInfo(jniS); // tell the system that jni owns the window not us
@@ -55,8 +63,10 @@ extern "C" jlong Java_com_example_myapplication_MainActivity_init(
     vtkNew<vtkPiecewiseFunction> pwf;
 
     vtkNew<vtkNIFTIImageReader> mi;
-    mi->SetFileName("/mnt/sdcard/sub-3015_T1w.nii");
+    mi->SetFileName("/storage/emulated/0/sub-0060_ses-1_T1w.nii.gz");
+    LOGD("Read from nifti");
     mi->Update();
+    LOGD("Finished reading");
     volumeMapper->SetInputConnection(mi->GetOutputPort());
     volumeMapper->SetAutoAdjustSampleDistances(1);
     volumeMapper->SetSampleDistance(0.5);
